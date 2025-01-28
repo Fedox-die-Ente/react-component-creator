@@ -1,0 +1,10 @@
+import React from 'react';
+import styles from './{{componentName}}.module.css';
+
+export const {{componentName}} = () => {
+  return (
+    <div className={styles.container}>
+      <p>{{componentName}}</p>
+    </div>
+  );
+};
