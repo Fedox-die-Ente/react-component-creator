@@ -85,30 +85,27 @@ public class CreateReactComponentAction extends AnAction {
     }
 
     private String generateTsxContent(String componentName) {
-        String template = loadTemplate("data/tsxContent.txt");
-        if (template == null) return "Failed to load template";
-        return template.replace("{{componentName}}", componentName);
+        return "import React from 'react';\n" +
+                "import styles from './" + componentName + ".module.css';\n\n" +
+                "export const " + componentName + " = () => {\n" +
+                "  return (\n" +
+                "    <div className={styles.container}>\n" +
+                "      <p>" + componentName + "</p>\n" +
+                "    </div>\n" +
+                "  );\n" +
+                "};\n";
     }
 
     private String generateCssContent() {
-        String template = loadTemplate("data/cssContent.txt");
-        if (template == null) return "Failed to load template";
-        return template;
+        return """
+                .container {
+                  /* Add your styles here */
+                }
+                """;
     }
 
     private String generateIndexContent(String componentName) {
-        String template = loadTemplate("data/indexContent.txt");
-        if (template == null) return "Failed to load template";
-        return template.replace("{{componentName}}", componentName);
-    }
-
-    private String loadTemplate(String resourcePath) {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.joining("\n"));
-        } catch (Exception e) {
-            return null;
-        }
+        return "export { " + componentName + " } from './" + componentName + "';\n";
     }
 
     @Override
